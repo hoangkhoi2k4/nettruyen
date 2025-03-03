@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chapter;
 use App\Models\Story;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,17 @@ class HomeController extends Controller
 
         $storyView = Story::orderBy('s_view', 'desc')
                             ->limit(10)->get();
+        foreach($storyNew as $story){
+            $chapter = Chapter::where('c_story_id', $story -> id)
+                        ->first();
+            $story['chapter'] = $chapter;
+        }
+
+        // foreach($storyNewUpdate as $story){
+        //     $chapter = Chapter::where('c_story_id', $story -> id)
+        //                 ->first();
+        //     $story['chapter'] = $chapter;
+        // }
 
         $storyInterest = Story::inRandomOrder()
                             ->limit(10)->get();

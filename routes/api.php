@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Frontend\HomeController as FrontendHomeController;
+use App\Http\Controllers\Api\Frontend\StoryController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/home', [FrontendHomeController::class, 'index']);
+Route::get('/{slug}', [StoryController::class, 'getStory']);

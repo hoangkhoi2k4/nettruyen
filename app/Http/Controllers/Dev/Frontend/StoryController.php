@@ -7,5 +7,8 @@ use Illuminate\Http\Request;
 
 class StoryController extends Controller
 {
-    //
+    public function getStory($slug)
+    {
+        return view('frontend.page', ['slug' => $slug]);
+    }
 }

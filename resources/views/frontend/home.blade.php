@@ -1,8 +1,11 @@
-@extends('frontend.main')
+{{-- @extends('frontend.main')
 @section('content')
 <div class="section 1">
    <h2 class="m-rank-title">Truyện Hot</h2>
    <div class="de-cu" style="overflow: hidden">
+         @php
+            dd($data['storyNew']);
+         @endphp
          @php
              $cnt = 0
          @endphp
@@ -190,21 +193,20 @@
       <h2 class="list-new">&nbsp;Truyện Mới Cập Nhật</h2>
       <div class="list list-side list-truyen col-xs-12 col-sm-12 col-md-8 col-truyen-main col-main-1 moi_cap_nhat" id="truyen-slide" >
          <ul class="truyenhot_ul_customcol">
+            @foreach ($data['storyNew'] as $story)
             <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
                <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/33x33x600-40.jpg.pagespeed.ic.EKknslvpQf.webp" class="small-img wp-post-image" alt="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước" data-pagespeed-url-hash="17428617" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" srcset=" https://nettruyen88.net/wp-content/uploads/2024/09/49x49x600-40.jpg.pagespeed.ic.N3IKh9_Qh-.webp 1.5x, https://nettruyen88.net/wp-content/uploads/2024/09/66x66x600-40.jpg.pagespeed.ic._hBVYynfdu.webp 2x, https://nettruyen88.net/wp-content/uploads/2024/09/99x99x600-40.jpg.pagespeed.ic.ZxhAsfbFdo.webp 3x, https://nettruyen88.net/wp-content/uploads/2024/09/x600-40.jpg.pagespeed.ic.jqpJHmSo5a.webp      9.091x " />
+                  <img width="33" height="33" src="{{ $story -> s_avatar }}" class="small-img wp-post-image" alt="Hồi Đáp - tác giả Bi Bi" data-pagespeed-url-hash="3505792706" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
                   <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/" itemprop="url" title="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước" >Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái
-                     Trước</a>
+                     <a href="#" itemprop="url" title="{{ $story -> s_name }}" >{{ $story -> s_name }}</a>
                   </h3>
                   <span class="list-truyen-chitiet">
                   <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >
+                  <a itemprop="genre" href="#" title="Đô Thị" >{{ $story -> category_name }}</a >
                   </span>
                   <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước - Chương 154: Lâm Tiểu Tuyết: Thật ác độc lão thái bà" href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/chuong-154-lam-tieu-tuyet-that-ac-doc-lao-thai-ba.html" >
-                  <span class="chapter-text" >Chương 154: Lâm Tiểu Tuyết: Thật ác độc lão thái
-                  bà</span >
+                  <a class="text-primary" title="{{ $story -> s_name }} - {{ $story -> chapter['c_name'] }}" href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/chuong-154-lam-tieu-tuyet-that-ac-doc-lao-thai-ba.html" >
+                  <span class="chapter-text" >{{ $story -> chapter['c_name'] }}</span >
                   </a>
                   </span>
                   <span class="update_time">2 tháng trước</span>
@@ -212,366 +214,7 @@
                   <!-- Hiển thị ảnh đại diện -->
                </div>
             </li>
-            {{-- <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" class="small-img wp-post-image" alt="Thế Giới Song Song - Thỉnh Khiếu Ngã Sơn Đại Vương" data-pagespeed-url-hash="132955282" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" src="data:image/webp;base64,UklGRpwFAABXRUJQVlA4IJAFAAAQGwCdASpjAGMAPm0ylkgkIqIhJfOamIANiWUA1MDILc1M/Zih52ix8oUmFgaarA0mtUz0w/uhjiVeThFqDkrKAWHRPVwh9g+vHVgE1SzHjlp6MxFKnkOfphsWdbej1Pv2dhKd/yODfwV8QBiRtY1oNgXBLps4PhuJ7nrbzFtnMMCuvxUj4CW77kSlER0q3ICtDGJ/T+AB2Hp0Yyiex2ziDk4dftAXhccng+yJu7133YWESV6hUcueFnHCElBCl7hzGAflmf0aPsW/HGcnQvx6jmNxz25zjpVjb92x3CGkFsAA/vxT6ZCVOHV3fw4WQ9hZhOXkOGPHWvFpfprn4+99OtjLJ/rkm7XJxOndPewDX98Mb4/7juu9OXSlj/auT5SntYgvKVkLmWM+ggTLgQjCxKz3MybwGvggoNxfFYYLQKqt3RCwXfXC3vZ7q5/89KlIAhSjwq49GxKP/GvIYzbi/m3KHf7nK3ZF7qkR2dWHb5jP1Cu8GY/W6wqa8O2qkVT/bP6b2QIYaRSXVkDdQVAT2WE9yIBgyoyHSWUCo2/DJ/+38YBVslfATUqa0i2GD3u7yy+FyVmlVlho5fxMIBJeXFgq3FY7Xt/TpmauBIMbdkODe9kruRM257z/AWSQKGWGGO9zAbAlRm1c3KXfjaN2jTmp407bZ5ekHdXSP6rbtLGZUWH3tjZFlQJ/08yXOeskIt4EIxmEbQWf65B1eu3BaPf7r+1WUwhWnZI6/cutJHXyiKj7CtEBnTPwhyjoCckhOQqTnukILMnAgrTrz5cC6JgC1jt/tdRe9V2DPSbLaRqQnN2kFxU46G4c9efOEtLO0j9tASqqE91/IBZnVpoFgHB+tSOwjwKP51v9YGJ4sQcEOj27DQyUJ82rVsq9p9d/yb0/Q74bROfiDyHgWdgmbomzwFXWyypBjbdUKEzv0SYzc5+znB7+8ETAx3qXO7FnfHSHZAJ+/aLsCLH23Ms2mZAHyWmZT6m+6CwbQaEuIbylXgxQPJRhvD2HkWqyRD/4TV6ZE9kRCjb+Ipq5k7epUYKNXptZdyuPx5cmVn9SAUhEgP8RUSUe/rt48PMTfU681sdTZNYxq3KdS73Bh9H5lapaBLnsKSne9Vsium10WgJp7g7DW37nxFzwGnwKb70SkAzqSdahV8Z0ZBvxP/NFJcJUAOxxinulbLYI+9vlLsHFM/kYaMaUHoOYyDmekxQqAA/z+sVlvcR5lO6fJbre1ehsd3bLcS01h4HTxjiRi6wqy1sldVF4V511pIKdo6R3wLPHY+W872ZoN9oUY0ctsdOlfpdbySvVjl5GrVlwyEeXfsqE3FLlirKmzclo0om6vFYuAVFaabbEaETW7UAsIvUNwGZukLTDcIxErp1eKKPVBHnWucHRx9SCYERLfKehxUSDLVeVCpJPgi73ZGVBtFg/uTl9GMeOFlwkjrYyCqSVSXtAamkxvRYMRZ+8uaZL9kImmylnhDA06AlUH3hRvM9CWNyqxNgNTWiXS5ue+lQ1rqBjrQqutCPiaVw4iZ1EQEXLO3mgMHQ0akYhfAZNp2gBnYIPm067l0CyzhEiIBmtRvJFcD1ijCu2T6e3YuqS/vRDA1WRzvu93uu6JPeLtCKHy/3+QVqnTwSfskvAKat27tJSJlgg8osJda1hR6PcOsfolFmr1I9LPt6tI0sYPcCiPPjLsNoDy96SDDTLDpIXBvZKcCea33h8+oYUPadBVVTNKvPBioVJb8yK1KFsbdeFXzkcLRwNYfWTWgKeSZyY95GfEtblY1hpR5DTKQfwevv/0LeKkz7EXPtluAD9yjZaSfHTRD0ifHWxf+T/oVga0wMnYlC9BuRoquOyAscn0dszxVpai2iL4hI6lsBkWSjY5y1g+rnmQGMAAAAAAA==" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/the-gioi-song-song-thinh-khieu-nga-son-dai-vuong/" itemprop="url" title="Thế Giới Song Song - Thỉnh Khiếu Ngã Sơn Đại Vương" >Thế Giới Song Song - Thỉnh Khiếu Ngã Sơn Đại Vương</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/he-thong/" title="Hệ Thống" >Hệ Thống</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/mat-the/" title="Mạt Thế" >Mạt Thế</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Thế Giới Song Song - Thỉnh Khiếu Ngã Sơn Đại Vương - Chương 56: Huấn luyện thực chiến trong rừng 1" href="https://nettruyen88.net/the-gioi-song-song-thinh-khieu-nga-son-dai-vuong/chuong-56-huan-luyen-thuc-chien-trong-rung-1.html" >
-                  <span class="chapter-text">Chương 56: Huấn luyện thực chiến trong rừng 1</span>
-                  </a>
-                  </span>
-                  <span class="update_time">2 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" class="small-img wp-post-image" alt="Phản Phái: Phu Nhân, Ngươi Cũng Không Muốn Trương Vô Kỵ Xảy Ra Chuyện A?" data-pagespeed-url-hash="2221271078" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" src="data:image/webp;base64,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" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/phan-phai-phu-nhan-nguoi-cung-khong-muon-truong-vo-ky-xay-ra-chuyen-a/" itemprop="url" title="Phản Phái: Phu Nhân, Ngươi Cũng Không Muốn Trương Vô Kỵ Xảy Ra Chuyện A?" >Phản Phái: Phu Nhân, Ngươi Cũng Không Muốn Trương Vô Kỵ
-                     Xảy Ra Chuyện A?</a>
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/dong-phuong/" title="Đông Phương" >Đông Phương</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/dong-phuong-huyen-huyen/" title="Đông Phương Huyền Huyễn" >Đông Phương Huyền Huyễn</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Phản Phái: Phu Nhân, Ngươi Cũng Không Muốn Trương Vô Kỵ Xảy Ra Chuyện A? - Chương 175: A Tử lừa dối Nguyễn Tinh Trúc đưa tới cửa" href="https://nettruyen88.net/phan-phai-phu-nhan-nguoi-cung-khong-muon-truong-vo-ky-xay-ra-chuyen-a/chuong-175-a-tu-lua-doi-nguyen-tinh-truc-dua-toi-cua.html" >
-                  <span class="chapter-text" >Chương 175: A Tử lừa dối Nguyễn Tinh Trúc đưa tới
-                  cửa</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/33x33xadcrehcgvmgxzrtszikduchvp6vz1gdoyty7wmf38msqrmdnmeoo6brxpv_5zt3tpn4cv3p7gmjw5i0cdnyjhpkqdouptafq1khgdfytz6adsuczmvraosq1fvd4hqdrwsqzgj6myxa3irogyqjktcj0mrq2w215-h322-s-no.jpeg.pagespeed.ic.bvC_CHZ3QG.webp" class="small-img wp-post-image" alt="Ẩn Cư Ba Năm, Ra Ngục Thành Vô Địch" data-pagespeed-url-hash="789191868" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" srcset=" https://nettruyen88.net/wp-content/uploads/2024/09/49x49xadcrehcgvmgxzrtszikduchvp6vz1gdoyty7wmf38msqrmdnmeoo6brxpv_5zt3tpn4cv3p7gmjw5i0cdnyjhpkqdouptafq1khgdfytz6adsuczmvraosq1fvd4hqdrwsqzgj6myxa3irogyqjktcj0mrq2w215-h322-s-no.jpeg.pagespeed.ic.ZVX-RMHZuE.webp 1.5x, https://nettruyen88.net/wp-content/uploads/2024/09/66x66xadcrehcgvmgxzrtszikduchvp6vz1gdoyty7wmf38msqrmdnmeoo6brxpv_5zt3tpn4cv3p7gmjw5i0cdnyjhpkqdouptafq1khgdfytz6adsuczmvraosq1fvd4hqdrwsqzgj6myxa3irogyqjktcj0mrq2w215-h322-s-no.jpeg.pagespeed.ic.M98Vb1aNYU.webp 2x, https://nettruyen88.net/wp-content/uploads/2024/09/99x99xadcrehcgvmgxzrtszikduchvp6vz1gdoyty7wmf38msqrmdnmeoo6brxpv_5zt3tpn4cv3p7gmjw5i0cdnyjhpkqdouptafq1khgdfytz6adsuczmvraosq1fvd4hqdrwsqzgj6myxa3irogyqjktcj0mrq2w215-h322-s-no.jpeg.pagespeed.ic.znCWx6UMA-.webp 3x, https://nettruyen88.net/wp-content/uploads/2024/09/xadcrehcgvmgxzrtszikduchvp6vz1gdoyty7wmf38msqrmdnmeoo6brxpv_5zt3tpn4cv3p7gmjw5i0cdnyjhpkqdouptafq1khgdfytz6adsuczmvraosq1fvd4hqdrwsqzgj6myxa3irogyqjktcj0mrq2w215-h322-s-no.jpeg.pagespeed.ic.O73RMMfnDn.webp      6.515x " />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/an-cu-ba-nam-ra-nguc-thanh-vo-dich/" itemprop="url" title="Ẩn Cư Ba Năm, Ra Ngục Thành Vô Địch" >Ẩn Cư Ba Năm, Ra Ngục Thành Vô Địch</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/kiem-hiep/" title="Kiếm hiệp" >Kiếm hiệp</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/tien-hiep/" title="Tiên Hiệp" >Tiên Hiệp</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Ẩn Cư Ba Năm, Ra Ngục Thành Vô Địch - Chương 86" href="https://nettruyen88.net/an-cu-ba-nam-ra-nguc-thanh-vo-dich/chuong-86-114.html" >
-                  <span class="chapter-text">Chương 86</span>
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" class="small-img wp-post-image" alt="Tinh Tế Rách Nát Nữ Vương" data-pagespeed-url-hash="3334175738" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" src="data:image/webp;base64,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" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/tinh-te-rach-nat-nu-vuong/" itemprop="url" title="Tinh Tế Rách Nát Nữ Vương" >Tinh Tế Rách Nát Nữ Vương</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/huyen-huyen/" title="Huyền Huyễn" >Huyền Huyễn</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Tinh Tế Rách Nát Nữ Vương - Chương 319: thiếu tấu" href="https://nettruyen88.net/tinh-te-rach-nat-nu-vuong/chuong-319-thieu-tau.html" >
-                  <span class="chapter-text" >Chương 319: thiếu tấu</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/600-41.jpg" class="small-img wp-post-image" alt="Xuyên Thành 70 Pháo Hôi Tức Phụ" data-pagespeed-url-hash="311928538" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" srcset=" https://nettruyen88.net/wp-content/uploads/2024/09/49x49x600-41.jpg.pagespeed.ic.XPKwV5_eh-.webp 1.5x, https://nettruyen88.net/wp-content/uploads/2024/09/600-41.jp                2x " />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/xuyen-thanh-70-phao-hoi-tuc-phu/" itemprop="url" title="Xuyên Thành 70 Pháo Hôi Tức Phụ" >Xuyên Thành 70 Pháo Hôi Tức Phụ</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/ngon-tinh/" title="Ngôn Tình" >Ngôn Tình</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Xuyên Thành 70 Pháo Hôi Tức Phụ - Chương 127: Đại kết cục (3)" href="https://nettruyen88.net/xuyen-thanh-70-phao-hoi-tuc-phu/chuong-127-dai-ket-cuc-3.html" >
-                  <span class="chapter-text" >Chương 127: Đại kết cục (3)</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/treu-choc-hon-nhan.jpg" class="small-img wp-post-image" alt="Trêu Chọc Hôn Nhân" data-pagespeed-url-hash="1803161760" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/treu-choc-hon-nhan/" itemprop="url" title="Trêu Chọc Hôn Nhân" >Trêu Chọc Hôn Nhân</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/ngon-tinh/" title="Ngôn Tình" >Ngôn Tình</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Trêu Chọc Hôn Nhân - Chương 82: 82: Ngọt Ngào Hàng Ngày 9" href="https://nettruyen88.net/treu-choc-hon-nhan/chuong-82-82-ngot-ngao-hang-ngay-9.html" >
-                  <span class="chapter-text" >Chương 82: 82: Ngọt Ngào Hàng Ngày 9</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/tu-ho-gam-kim-chung-trao-bat-dau_21.jpeg" class="small-img wp-post-image" alt="Võ Đạo Độc Tôn: Từ Hổ Gầm Kim Chung Tráo Bắt Đầu" data-pagespeed-url-hash="3133965044" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/vo-dao-doc-ton-tu-ho-gam-kim-chung-trao-bat-dau/" itemprop="url" title="Võ Đạo Độc Tôn: Từ Hổ Gầm Kim Chung Tráo Bắt Đầu" >Võ Đạo Độc Tôn: Từ Hổ Gầm Kim Chung Tráo Bắt Đầu</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/huyen-huyen/" title="Huyền Huyễn" >Huyền Huyễn</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/kiem-hiep/" title="Kiếm hiệp" >Kiếm hiệp</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Võ Đạo Độc Tôn: Từ Hổ Gầm Kim Chung Tráo Bắt Đầu - Chương 417: người hào" href="https://nettruyen88.net/vo-dao-doc-ton-tu-ho-gam-kim-chung-trao-bat-dau/chuong-417-nguoi-hao.html" >
-                  <span class="chapter-text" >Chương 417: người hào</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/hoidap8axzlib6jy.jpg" class="small-img wp-post-image" alt="Hồi Đáp - tác giả Bi Bi" data-pagespeed-url-hash="3505792706" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/hoi-dap-tac-gia-bi-bi/" itemprop="url" title="Hồi Đáp - tác giả Bi Bi" >Hồi Đáp - tác giả Bi Bi</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/ngon-tinh/" title="Ngôn Tình" >Ngôn Tình</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Hồi Đáp - tác giả Bi Bi - Chương 22 - Đời đời bình an" href="https://nettruyen88.net/hoi-dap-tac-gia-bi-bi/chuong-22-doi-doi-binh-an.html" >
-                  <span class="chapter-text" >Chương 22 - Đời đời bình an</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/khi-the-gioi-tro-thanh-tro-choi-bup-be-1.jpg" class="small-img wp-post-image" alt="Khi Thế Giới Trở Thành Trò Chơi Búp Bê" data-pagespeed-url-hash="345331973" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/khi-the-gioi-tro-thanh-tro-choi-bup-be/" itemprop="url" title="Khi Thế Giới Trở Thành Trò Chơi Búp Bê" >Khi Thế Giới Trở Thành Trò Chơi Búp Bê</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/he-thong/" title="Hệ Thống" >Hệ Thống</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Khi Thế Giới Trở Thành Trò Chơi Búp Bê - Chương 136: C136: Xóa chữ thứ nhất" href="https://nettruyen88.net/khi-the-gioi-tro-thanh-tro-choi-bup-be/chuong-136-c136-xoa-chu-thu-nhat-3.html" >
-                  <span class="chapter-text" >Chương 136: C136: Xóa chữ thứ nhất</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/nguoi-qua-duong-nu-xung-bi-dien-my-vai-ac-quan-len.jpg" class="small-img wp-post-image" alt="Người Qua Đường Nữ Xứng Bị Điên Mỹ Vai Ác Quấn Lên" data-pagespeed-url-hash="1245582129" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/nguoi-qua-duong-nu-xung-bi-dien-my-vai-ac-quan-len/" itemprop="url" title="Người Qua Đường Nữ Xứng Bị Điên Mỹ Vai Ác Quấn Lên" >Người Qua Đường Nữ Xứng Bị Điên Mỹ Vai Ác Quấn Lên</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/bach-hop/" title="Bách Hợp" >Bách Hợp</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/dam-my/" title="Đam Mỹ" >Đam Mỹ</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Người Qua Đường Nữ Xứng Bị Điên Mỹ Vai Ác Quấn Lên - Chương 103" href="https://nettruyen88.net/nguoi-qua-duong-nu-xung-bi-dien-my-vai-ac-quan-len/chuong-103-102.html" >
-                  <span class="chapter-text">Chương 103</span>
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/600-39.jpg" class="small-img wp-post-image" alt="Thần Điêu: Ta, Kiếm Tiên, Trấn Áp Thiên Hạ" data-pagespeed-url-hash="2743143919" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/than-dieu-ta-kiem-tien-tran-ap-thien-ha/" itemprop="url" title="Thần Điêu: Ta, Kiếm Tiên, Trấn Áp Thiên Hạ" >Thần Điêu: Ta, Kiếm Tiên, Trấn Áp Thiên Hạ</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/kiem-hiep/" title="Kiếm hiệp" >Kiếm hiệp</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Thần Điêu: Ta, Kiếm Tiên, Trấn Áp Thiên Hạ - Chương 283: Ta sao có thể vứt bỏ" href="https://nettruyen88.net/than-dieu-ta-kiem-tien-tran-ap-thien-ha/chuong-283-ta-sao-co-the-vut-bo.html" >
-                  <span class="chapter-text" >Chương 283: Ta sao có thể vứt bỏ</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/throne-of-magical-arcana.jpeg" class="small-img wp-post-image" alt="Throne Of Magical Arcana" data-pagespeed-url-hash="2246491355" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/throne-of-magical-arcana/" itemprop="url" title="Throne Of Magical Arcana" >Throne Of Magical Arcana</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/light-novel/" title="Light Novel" >Light Novel</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/sac/" title="Sắc" >Sắc</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Throne Of Magical Arcana - Ác quỷ thực sự" href="https://nettruyen88.net/throne-of-magical-arcana/ac-quy-thuc-su.html" >
-                  <span class="chapter-text">Ác quỷ thực sự</span>
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/adcrehc3llthesya9oqdkxp9eapiwt2hkkjaqhs0o4ycza5xxij76uaq4ssn6qlrc6ytaitlk4ijw9ivah1zdm-ne4o0xy44fm9zscmql30pnqrawfdlsz5d0_zgw80jgebxi38q9gh2_kzhvm9ala4mb0orw215-h322-s-no-gm.jpeg" class="small-img wp-post-image" alt="Gả Cho Thế Tử Bệnh Tật" data-pagespeed-url-hash="2114419553" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/ga-cho-the-tu-benh-tat/" itemprop="url" title="Gả Cho Thế Tử Bệnh Tật" >Gả Cho Thế Tử Bệnh Tật</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/co-dai/" title="Cổ Đại" >Cổ Đại</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/cung-dau/" title="Cung Đấu" >Cung Đấu</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Gả Cho Thế Tử Bệnh Tật - Chương 146: C146: Chương cuối" href="https://nettruyen88.net/ga-cho-the-tu-benh-tat/chuong-146-c146-chuong-cuoi.html" >
-                  <span class="chapter-text" >Chương 146: C146: Chương cuối</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/chu-chu-hoi-cung-gojo-satoru-cung-nhau-lam-su-nhat-tu_75.jpeg" class="small-img wp-post-image" alt="[ Chủ Chú Hồi ] Cùng Gojo Satoru Cùng Nhau Làm Sự Nhật Tử" data-pagespeed-url-hash="1568401632" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/chu-chu-hoi-cung-gojo-satoru-cung-nhau-lam-su-nhat-tu/" itemprop="url" title="[ Chủ Chú Hồi ] Cùng Gojo Satoru Cùng Nhau Làm Sự Nhật Tử" >[ Chủ Chú Hồi ] Cùng Gojo Satoru Cùng Nhau Làm Sự Nhật
-                     Tử</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/hien-dai-2/" title="Hiện đại" >Hiện đại</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/ngon-tinh/" title="Ngôn Tình" >Ngôn Tình</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="[ Chủ Chú Hồi ] Cùng Gojo Satoru Cùng Nhau Làm Sự Nhật Tử - Chương 2: Một phần thù vinh" href="https://nettruyen88.net/chu-chu-hoi-cung-gojo-satoru-cung-nhau-lam-su-nhat-tu/chuong-2-mot-phan-thu-vinh.html" >
-                  <span class="chapter-text" >Chương 2: Một phần thù vinh</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/300.jpg" class="small-img wp-post-image" alt="Gia Tộc Tu Tiên: Từ Ngự Thú Bắt Đầu Quật Khởi" data-pagespeed-url-hash="2105277367" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/gia-toc-tu-tien-tu-ngu-thu-bat-dau-quat-khoi/" itemprop="url" title="Gia Tộc Tu Tiên: Từ Ngự Thú Bắt Đầu Quật Khởi" >Gia Tộc Tu Tiên: Từ Ngự Thú Bắt Đầu Quật Khởi</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/tien-hiep/" title="Tiên Hiệp" >Tiên Hiệp</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Gia Tộc Tu Tiên: Từ Ngự Thú Bắt Đầu Quật Khởi - Chương 848: Ung dung mấy ngàn năm, cử hà phi thăng (4)" href="https://nettruyen88.net/gia-toc-tu-tien-tu-ngu-thu-bat-dau-quat-khoi/chuong-848-ung-dung-may-ngan-nam-cu-ha-phi-thang-4.html" >
-                  <span class="chapter-text" >Chương 848: Ung dung mấy ngàn năm, cử hà phi thăng
-                  (4)</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/33x33xadcrehergwunufushrea4cxpc68pzkfl2mpscqwo_ka7dihefefd5evl7uy4dsxd7bzdraymi4ktivsw14bwgshy5bmt_p6eumj_uotirro6akyf5jgz_50ermz6wt1iwgodqs-0re1bjl1ptepmao214pnrw215-h322-s-no.png.pagespeed.ic.Qlk7VNTiQT.webp" class="small-img wp-post-image" alt="Dưới Vẻ Bề Ngoài" data-pagespeed-url-hash="3425257654" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" srcset=" https://nettruyen88.net/wp-content/uploads/2024/09/adcrehergwunufushrea4cxpc68pzkfl2mpscqwo_ka7dihefefd5evl7uy4dsxd7bzdraymi4ktivsw14bwgshy5bmt_p6eumj_uotirro6akyf5jgz_50ermz6wt1iwgodqs-0re1bjl1ptepmao214pnrw215-h322-s-no.png 1.5x " />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/duoi-ve-be-ngoai/" itemprop="url" title="Dưới Vẻ Bề Ngoài" >Dưới Vẻ Bề Ngoài</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/khac/" title="Khác" >Khác</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="Dưới Vẻ Bề Ngoài - Chương 110: Anh yêu em (2015) (Hoàn chính văn)" href="https://nettruyen88.net/duoi-ve-be-ngoai/chuong-110-anh-yeu-em-2015-hoan-chinh-van.html" >
-                  <span class="chapter-text" >Chương 110: Anh yêu em (2015) (Hoàn chính
-                  văn)</span >
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li>
-            <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
-               <div class="list-nowrap new-update">
-                  <img width="33" height="33" class="small-img wp-post-image" alt="When My Wife Cheated On Me" data-pagespeed-url-hash="3524507274" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" src="data:image/webp;base64,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" />
-                  <h3 itemprop="name">
-                     <a href="https://nettruyen88.net/when-my-wife-cheated-on-me/" itemprop="url" title="When My Wife Cheated On Me" >When My Wife Cheated On Me</a >
-                  </h3>
-                  <span class="list-truyen-chitiet">
-                  <span title="" class="can-phai update_cate">
-                  <a itemprop="genre" href="https://nettruyen88.net/light-novel/" title="Light Novel" >Light Novel</a >,
-                  <a itemprop="genre" href="https://nettruyen88.net/sac/" title="Sắc" >Sắc</a >
-                  </span>
-                  <span class="can-phai tien_to_full update_chap">
-                  <a class="text-primary" title="When My Wife Cheated On Me - Chương 01" href="https://nettruyen88.net/when-my-wife-cheated-on-me/chuong-01-5.html" >
-                  <span class="chapter-text">Chương 01</span>
-                  </a>
-                  </span>
-                  <span class="update_time">4 tháng trước</span>
-                  </span>
-                  <!-- Hiển thị ảnh đại diện -->
-               </div>
-            </li> --}}
+            @endforeach
          </ul>
       </div>
    </div>
@@ -612,9 +255,9 @@
                   </li>
                   <li class="truyenhot_li_customcol" itemscope="" itemtype="http://schema.org/Book" >
                      <div class="list-nowrap new-novel">
-                        <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/600-40-150x150.jpg" class="small-img wp-post-image" alt="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước" data-pagespeed-url-hash="3875584160" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
+                        <img width="33" height="33" src="https://nettruyen88.net/wp-content/uploads/2024/09/600-40-150x150.jpg" class="small-img wp-post-image" alt="{{ $story -> s_name }}" data-pagespeed-url-hash="3875584160" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" />
                         <h3 itemprop="name">
-                           <a href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/" itemprop="url" title="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước" >Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái
+                           <a href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/" itemprop="url" title="{{ $story -> s_name }}" >Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái
                            Trước</a>
                         </h3>
                         <span class="list-truyen-chitiet">
@@ -622,7 +265,7 @@
                         <aitemprop= itemprop="genre" href="https://nettruyen88.net/do-thi/" title="Đô Thị" >Đô Thị</a >
                         </span>
                         <span class="can-phai tien_to_full update_chap new-novel" >
-                        <a title="Tốt Nghiệp Phát Lão Bà, Ta Thành Ba Ba Của Bạn Gái Trước - Chương 154: Lâm Tiểu Tuyết: Thật ác độc lão thái bà" href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/chuong-154-lam-tieu-tuyet-that-ac-doc-lao-thai-ba.html" ><span class="chapter-text" >Chương 154:...
+                        <a title="{{ $story -> s_name }} - {{ $story -> chapter['c_name'] }}" href="https://nettruyen88.net/tot-nghiep-phat-lao-ba-ta-thanh-ba-ba-cua-ban-gai-truoc/chuong-154-lam-tieu-tuyet-that-ac-doc-lao-thai-ba.html" ><span class="chapter-text" >Chương 154:...
                         </span></a>
                         </span>
                         <span class="update_time"> 3 tháng trước </span>
@@ -831,5 +474,21 @@
          </div>
       </div>
    </div>
+</div>
+@endsection --}}
+
+<!-- filepath: /c:/xampp/htdocs/nettruyen/resources/views/frontend/home.blade.php -->
+@extends('frontend.main')
+
+@section('content')
+<div id="app">
+   <home-component></home-component>
+</div>
+@vite(['resources/js/app.js'])
+@endsection
+
+@section('story-full-new')
+<div id="app-story">
+   <story-full-new-component></story-full-new-component>
 </div>
 @endsection

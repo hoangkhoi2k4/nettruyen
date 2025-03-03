@@ -15,16 +15,14 @@ class HomeController extends Controller
             ->limit(12)->get();
 
         foreach ($storyNew as $story) {
-            $chapter = Chapter::select('id', 'c_story_id', 'c_slug')
+            $chapter = Chapter::select('id', 'c_name', 'c_story_id', 'c_slug')
                 ->where('c_story_id', $story->id)
-                ->limit(1)
-                ->first();
-
+                ->first(); 
             $story->chapter = $chapter;
         }
 
         $storyHot = Story::orderBy('s_view', 'desc')
-            ->limit(7)->get();
+            ->limit(3)->get();
 
         $storyFull = Story::where('s_status', 1)
             ->limit(7)->get();
@@ -33,11 +31,10 @@ class HomeController extends Controller
             ->limit(15)->get();
 
         foreach ($storyNewUpdate as $story) {
-            $chapter = Chapter::select('id', 'c_story_id', 'c_slug')
+            $chapter = Chapter::select('id', 'c_name', 'c_story_id', 'c_slug')
                 ->where('c_story_id', $story->id)
-                ->limit(1)
-                ->first();
-
+                ->first(); // Lấy bản ghi đầu tiên
+            
             $story->chapter = $chapter;
         }
 

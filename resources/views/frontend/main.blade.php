@@ -4,16 +4,9 @@
     <body id="body_home">
       <div id="wrap">
          @include('frontend.component.navbar')
-         <div class="container" id="intro-index">
-            @yield('content')
-         </div>
-         <div class="container" id="intro-index">
-            @yield('content-2')
-         </div>
+         @yield('content')
       </div>
-      @if(\Request::route() -> getName() == 'home')
-         @include('frontend.component.story-full-new')
-      @endif
+         @yield('story-full-new')
       @include('frontend.component.footer')
       @include('frontend.component.js')
    </body>
