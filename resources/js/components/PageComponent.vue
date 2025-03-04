@@ -149,13 +149,17 @@ export default {
         }
     },
     mounted() {
-        axios.get(`http://127.0.0.1:8000/api/${this.slug}`)
-            .then(response => {
-                this.story = response.data.data;
-            })
-            .catch(error => {
-                console.log("error");
-            });
+        axios.get('/api/config')
+        .then(response => {
+            this.apiBaseUrl = response.data.api_base_url;
+            return axios.get(`${this.apiBaseUrl}/${this.slug}`);
+        })
+        .then(response => {
+            this.story = response.data.data;
+        })
+        .catch(error => {
+            console.log("error");
+        });
     }
 }
 </script>

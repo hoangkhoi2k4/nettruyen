@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Dev\Frontend\AuthController;
+use App\Http\Controllers\Dev\Frontend\CategoryController;
 use App\Http\Controllers\Dev\Frontend\HomeController;
 use App\Http\Controllers\Dev\Frontend\StoryController;
 use Illuminate\Support\Facades\Route;
@@ -21,6 +23,16 @@ Route::controller(HomeController::class) -> group(function(){
     
 Route::controller(StoryController::class) -> group(function() {
     Route::get('/{slug}', 'getStory') -> name('get.story.by.slug');
+});
+
+Route::controller(CategoryController::class) -> group(function() {
+    Route::get('/category/{slug}', 'getCategory') -> name('get.category.by.slug');
+});
+
+Route::controller(AuthController::class) -> group(function() {
+    Route::post('/register', 'register') -> name('register');
+    Route::post('/login', 'login') -> name('login');
+    Route::post('/logout', 'logout') -> name('logout');
 });
 
 

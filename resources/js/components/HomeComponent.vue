@@ -29,7 +29,11 @@ export default {
     };
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/api/home')
+    axios.get('/api/config')
+      .then(response => {
+        this.apiBaseUrl = response.data.api_base_url;
+        return axios.get(`${this.apiBaseUrl}/home`);
+      })
       .then(response => {
         this.storyHot = response.data.storyHot;
         this.storyNew = response.data.storyNew;

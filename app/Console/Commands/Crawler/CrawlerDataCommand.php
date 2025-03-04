@@ -30,9 +30,20 @@ class CrawlerDataCommand extends Command
 
     protected function init()
     {
-        $this -> crawlImage();
         // $this->crawlerCategory();
         // $this->initType();
+        // $story = Story::where('s_status', 0)->first();
+        // if (!$story) {
+        //     $this->info('-- Success --');
+        //     return;
+        // }
+        // $category_name = Category::select('c_name')->where('id', $story->c_parent_id)->first();
+        // $story->s_status = 1;
+        // $story->category_name = $category_name->c_name;
+        // $story->save();
+        // $this->info('-- Success --' . $story->s_name);
+        // $this->init();
+        $this->info('cần chọn chức năng');
     }
 
     protected function crawlImage(){

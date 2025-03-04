@@ -44,4 +44,9 @@ class Story extends Model
     protected $table = 'stories';
     protected $guarded = [''];
 
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class, 'c_story_id');
+    }
+
 }

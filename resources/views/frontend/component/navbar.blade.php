@@ -19,16 +19,26 @@
                 </div>
                 <div class="kq_search"></div>
                 </div>
-                <div class="member_control">
-                <a class="switch settings" id="switch">
-                <span class="switch__light"
-                    ><i class="fa fa-moon-o" aria-hidden="true"></i
-                    ></span>
-                <span class="switch__dark">
-                <i class="fa fa-sun-o" aria-hidden="true"></i
-                    ></span>
-                </a>
-                <button onclick="openModal('loginTab')">Đăng Nhập</button>
+                <div class="member_control" style="width: 400px;">
+                    <a class="switch settings" id="switch">
+                        <span class="switch__light">
+                            <i class="fa fa-moon-o" aria-hidden="true"></i>
+                        </span>
+                        <span class="switch__dark">
+                            <i class="fa fa-sun-o" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                    @if(!Auth::user())
+                        <button onclick="openModal('loginTab')">Đăng Nhập</button>
+                    @else
+                        <button onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Đăng Xuất</button>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <span >
+                          Xin chào <a href="#">{{ Auth::user()->username }}</a>
+                        </span>
+                    @endif
                 </div>
                 <script>
                 // Dark and Light Mode with localStorage
@@ -132,11 +142,12 @@
                     <h2 class="modal-login">Login</h2>
                 </div>
                 <!-- Login Form -->
-                <form id="loginForm" action="https://nettruyen88.net/wp-login.php" method="post" >
+                <form id="loginForm" action="{{ route('login') }}" method="post" >
+                    @csrf
                     <label for="username">Username:</label>
-                    <input type="text" name="log" id="username" required="" />
+                    <input type="text" name="username" id="username" required="" />
                     <label for="password">Password:</label>
-                    <input type="password" name="pwd" id="password" required="" />
+                    <input type="password" name="password" id="password" required="" />
                     <div class="login-cancel">
                         <button type="submit">Login</button>
                         <button type="button" onclick="closeModal()">Cancel</button>
@@ -153,14 +164,17 @@
                 </div>
                 <div id="registerTab" class="tabcontent">
                 <!-- Register Form -->
-                <form id="registerForm" action="https://nettruyen88.net/wp-login.php?action=register" method="post">
+                <form id="registerForm" action="{{ route('register')}}" method="post">
+                    @csrf
                     <div class="h2-modal">
                         <h2 class="modal-login">Register</h2>
                     </div>
                     <label for="reg_username">Username:</label>
-                    <input type="text" name="user_login" id="reg_username" required=""/>
+                    <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus>
                     <label for="reg_email">Email:</label>
-                    <input type="email" name="user_email" id="reg_email" required=""/>
+                    <input type="email" name="email" id="reg_email" required=""/>
+                    <label for="reg_password">Password:</label>
+                    <input type="password" name="password" id="reg_password" required=""/>
                     <div class="login-cancel">
                         <button type="submit">Register</button>
                         <button type="button" onclick="closeModal()">Cancel</button>
@@ -248,26 +262,24 @@
     <div class="navbar-breadcrumb">
         <div class="container breadcrumb-container">
             <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
-                 @if(\Request::route() -> getName() != 'home' )
                 <li itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem" >
                     <a href="https://nettruyen88.net" accesskey="1">                
-                        <span class="glyphicon glyphicon-home"></span>
+                        {{-- <span class="glyphicon glyphicon-home"></span> --}}
                     </a>
                     <a href="https://nettruyen88.net" title="Net Truyện 88" itemprop="item" >
-                        <span itemprop="name">Trang chủ</span>
+                        <span itemprop="name"></span>
                     </a>
                    
                     <meta itemprop="position" content="1" />
                 </li>
-                <li class="active" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem" >
-                    <h1>
-                        <a href="https://nettruyen88.net/the-loai/bach-hop/" title="Bách Hợp" itemprop="item" >
-                        <span itemprop="name">Bách Hợp</span>
-                        </a>
-                    </h1>
-                    <meta itemprop="position" content="2" />
-                </li> 
-                @endif
+                    {{-- <li class="active" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem" >
+                        <h1>
+                            <a href="https://nettruyen88.net/the-loai/bach-hop/" title="Bách Hợp" itemprop="item" >
+                            <span itemprop="name"></span>
+                            </a>
+                        </h1>
+                        <meta itemprop="position" content="2" />
+                    </li>  --}}
             </ol>
         </div>
     </div>

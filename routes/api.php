@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Frontend\CategoryController;
 use App\Http\Controllers\Api\Frontend\HomeController as FrontendHomeController;
 use App\Http\Controllers\Api\Frontend\StoryController;
 use App\Http\Controllers\Frontend\HomeController;
@@ -21,10 +22,13 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-
-// Route::group(['middleware' => 'auth:sanctum'], function(){
-//     Route::get('/home', [FrontendHomeController::class, 'index']);
-// });
+Route::get('/config', function () {
+    return response()->json([
+        'api_base_url' => env('API_BASE_URL')
+    ]);
+});
+    
 
 Route::get('/home', [FrontendHomeController::class, 'index']);
 Route::get('/{slug}', [StoryController::class, 'getStory']);
+Route::get('/category/{slug}', [CategoryController::class, 'getCategory']);

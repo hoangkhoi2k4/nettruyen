@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import HomeComponent from './components/HomeComponent.vue';
 import ViewAndInterest from './components/Home/ViewAndInterest.vue';
 import PageComponent from './components/PageComponent.vue';
+import CategoryComponent from './components/CategoryComponent.vue';
 
 const app = createApp({});
 app.component('home-component', HomeComponent);
@@ -14,3 +15,7 @@ appStory.mount('#app-story')
 const appPage = createApp({});
 appPage.component('page-component', PageComponent);
 appPage.mount('#page')
+
+const appCategory = createApp({});
+appCategory.component('category-component', CategoryComponent);
+appCategory.mount('#category')
